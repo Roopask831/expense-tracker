@@ -23,7 +23,7 @@ expense-tracker/
 ├── css/
 │   └── style.css       ← All styles
 ├── js/
-│   ├── firebase-config.js  ← Your Firebase credentials
+│   ├── firebase-config.js  ←  Firebase credentials
 │   ├── auth.js             ← Login, signup, logout logic
 │   ├── db.js               ← Firestore read/write logic
 │   ├── app.js              ← Main app logic
