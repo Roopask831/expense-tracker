@@ -1,0 +1,380 @@
+/* css/style.css */
+/* Clean white design — works for both login page and dashboard */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:   #ffffff;
+  --bg:      #f7f7f5;
+  --border:  rgba(0,0,0,0.10);
+  --border2: rgba(0,0,0,0.18);
+  --text:    #1a1a1a;
+  --muted:   #6b6b6b;
+  --green:   #1D9E75;
+  --red:     #E24B4A;
+  --radius:  10px;
+  --radius-lg: 14px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ── AUTH PAGE ─────────────────────────────────────────── */
+.auth-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.auth-card {
+  background: var(--white);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.25rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-card h1 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.auth-card p.sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  height: 40px;
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 0 12px;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: #888;
+}
+
+.btn-primary {
+  width: 100%;
+  height: 42px;
+  background: var(--text);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  margin-top: 4px;
+}
+
+.btn-primary:hover   { opacity: 0.85; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.auth-switch {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 1rem;
+}
+
+.auth-switch a {
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.err-msg {
+  background: #FCEBEB;
+  color: #A32D2D;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  display: none;
+}
+
+/* ── DASHBOARD LAYOUT ──────────────────────────────────── */
+.app-wrap {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.navbar h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#user-email {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.btn-sm {
+  height: 34px;
+  padding: 0 14px;
+  border: 0.5px solid var(--border2);
+  border-radius: var(--radius);
+  background: var(--white);
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--text);
+  transition: background 0.15s;
+}
+
+.btn-sm:hover { background: var(--bg); }
+
+.btn-export {
+  background: var(--text);
+  color: var(--white);
+  border-color: var(--text);
+}
+
+.btn-export:hover { opacity: 0.85; background: var(--text); }
+
+/* Summary cards */
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.sum-card {
+  background: var(--white);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.1rem;
+}
+
+.sum-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.sum-value {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.sum-value.income  { color: var(--green); }
+.sum-value.expense { color: var(--red); }
+
+/* Add form */
+.form-card {
+  background: var(--white);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-card h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.form-row.three {
+  grid-template-columns: 2fr 1fr 1fr;
+}
+
+/* Transaction list */
+.list-card {
+  background: var(--white);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px 1.1rem;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.filter-btn {
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 0.5px solid var(--border2);
+  background: var(--white);
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.15s;
+}
+
+.filter-btn.active {
+  background: var(--text);
+  color: var(--white);
+  border-color: var(--text);
+}
+
+.list-header {
+  display: grid;
+  grid-template-columns: 1fr 120px 90px 36px;
+  gap: 8px;
+  padding: 8px 1.1rem;
+  background: var(--bg);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.tx-item {
+  display: grid;
+  grid-template-columns: 1fr 120px 90px 36px;
+  gap: 8px;
+  padding: 12px 1.1rem;
+  border-top: 0.5px solid var(--border);
+  align-items: center;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.tx-name { font-size: 14px; font-weight: 500; }
+.tx-sub  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+.cat-badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #f0f0ee;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* A few distinct category colors */
+.cat-food---drink    { background: #E1F5EE; color: #0F6E56; }
+.cat-salary          { background: #E1F5EE; color: #0F6E56; }
+.cat-freelance       { background: #E6F1FB; color: #185FA5; }
+.cat-shopping        { background: #E6F1FB; color: #185FA5; }
+.cat-transport       { background: #FAEEDA; color: #854F0B; }
+.cat-investment      { background: #FAEEDA; color: #854F0B; }
+.cat-housing         { background: #EEEDFE; color: #3C3489; }
+.cat-health          { background: #FAECE7; color: #993C1D; }
+.cat-entertainment   { background: #FBEAF0; color: #72243E; }
+.cat-education       { background: #EAF3DE; color: #3B6D11; }
+
+.tx-amount {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.tx-amount.income  { color: var(--green); }
+.tx-amount.expense { color: var(--red); }
+
+.del-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 0.5px solid var(--border2);
+  background: var(--white);
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  justify-self: center;
+}
+
+.del-btn:hover {
+  background: #FCEBEB;
+  border-color: #F09595;
+  color: var(--red);
+}
+
+.empty {
+  padding: 2.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+#loading {
+  display: none;
+  text-align: center;
+  padding: 1rem;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────── */
+@media (max-width: 520px) {
+  .summary         { grid-template-columns: 1fr 1fr; }
+  .sum-card:first-child { grid-column: span 2; }
+  .form-row.three  { grid-template-columns: 1fr 1fr; }
+  .form-row.three .field:first-child { grid-column: span 2; }
+  .list-header     { display: none; }
+  .tx-item         { grid-template-columns: 1fr 80px 36px; }
+  .tx-item > div:nth-child(2) { display: none; }
+  #user-email      { display: none; }
+}

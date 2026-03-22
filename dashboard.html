@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!--
+    SheetJS — used by export.js to generate the .xlsx file
+    Loaded as a global (window.XLSX) so export.js can access it
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<div class="app-wrap">
+
+  <!-- ── NAVBAR ─────────────────────────────────────── -->
+  <nav class="navbar">
+    <h1>💰 Expense Tracker</h1>
+    <div class="navbar-right">
+      <span id="user-email"></span>
+      <button class="btn-sm btn-export" id="export-btn">⬇ Export Excel</button>
+      <button class="btn-sm" id="logout-btn">Log out</button>
+    </div>
+  </nav>
+
+  <!-- ── SUMMARY CARDS ─────────────────────────────── -->
+  <div class="summary">
+    <div class="sum-card">
+      <div class="sum-label">Balance</div>
+      <div class="sum-value" id="sum-balance">$0.00</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">Income</div>
+      <div class="sum-value income" id="sum-income">$0.00</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">Expenses</div>
+      <div class="sum-value expense" id="sum-expense">$0.00</div>
+    </div>
+  </div>
+
+  <!-- ── ADD TRANSACTION FORM ───────────────────────── -->
+  <div class="form-card">
+    <h2>Add Transaction</h2>
+
+    <form id="tx-form">
+      <div class="form-row">
+        <div class="field">
+          <label>Type</label>
+          <select id="tx-type">
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Category</label>
+          <select id="tx-cat"></select>
+        </div>
+      </div>
+
+      <div class="form-row three">
+        <div class="field">
+          <label>Description</label>
+          <input type="text" id="tx-desc" placeholder="e.g. Grocery run" required />
+        </div>
+        <div class="field">
+          <label>Amount ($)</label>
+          <input type="number" id="tx-amount" placeholder="0.00" min="0.01" step="0.01" required />
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="tx-date" required />
+        </div>
+      </div>
+
+      <button class="btn-primary" id="add-btn" type="submit">Add Transaction</button>
+    </form>
+  </div>
+
+  <!-- ── TRANSACTION LIST ───────────────────────────── -->
+  <div class="list-card">
+
+    <div class="filter-row">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn"        data-filter="income">Income</button>
+      <button class="filter-btn"        data-filter="expense">Expenses</button>
+    </div>
+
+    <div class="list-header">
+      <span>Description</span>
+      <span>Category</span>
+      <span style="text-align:right">Amount</span>
+      <span></span>
+    </div>
+
+    <div id="loading">Loading…</div>
+    <div id="tx-list"></div>
+
+  </div>
+
+</div>
+
+<!-- Main app logic (uses ES modules) -->
+<script type="module" src="js/app.js"></script>
+
+</body>
+</html>

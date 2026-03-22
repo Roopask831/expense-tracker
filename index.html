@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker — Login</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+
+    <h1 id="auth-title">Welcome back</h1>
+    <p class="sub" id="auth-sub">Sign in to your account</p>
+
+    <div class="err-msg" id="err-msg"></div>
+
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="you@example.com" />
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="••••••••" />
+    </div>
+
+    <button class="btn-primary" id="auth-btn">Sign In</button>
+
+    <p class="auth-switch">
+      <span id="switch-text">Don't have an account?</span>
+      <a id="switch-link">Sign Up</a>
+    </p>
+
+  </div>
+</div>
+
+<script type="module">
+  import { logIn, signUp, watchAuth } from "./js/auth.js";
+
+  // If already logged in, go straight to dashboard
+  watchAuth(
+    () => { window.location.href = "dashboard.html"; },
+    () => {}   // not logged in — stay here
+  );
+
+  let mode = "login";   // "login" | "signup"
+
+  // Toggle between login and signup
+  document.getElementById("switch-link").addEventListener("click", () => {
+    mode = mode === "login" ? "signup" : "login";
+    const isLogin = mode === "login";
+    document.getElementById("auth-title").textContent = isLogin ? "Welcome back" : "Create account";
+    document.getElementById("auth-sub").textContent   = isLogin ? "Sign in to your account" : "Start tracking your expenses";
+    document.getElementById("auth-btn").textContent   = isLogin ? "Sign In" : "Sign Up";
+    document.getElementById("switch-text").textContent = isLogin ? "Don't have an account?" : "Already have an account?";
+    document.getElementById("switch-link").textContent = isLogin ? "Sign Up" : "Sign In";
+    hideError();
+  });
+
+  // Submit
+  document.getElementById("auth-btn").addEventListener("click", async () => {
+    const email    = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const btn      = document.getElementById("auth-btn");
+
+    if (!email || !password) { showError("Please fill in both fields."); return; }
+    if (password.length < 6) { showError("Password must be at least 6 characters."); return; }
+
+    btn.disabled    = true;
+    btn.textContent = mode === "login" ? "Signing in…" : "Creating account…";
+    hideError();
+
+    try {
+      if (mode === "login") {
+        await logIn(email, password);
+      } else {
+        await signUp(email, password);
+      }
+      window.location.href = "dashboard.html";
+    } catch (err) {
+      showError(friendlyError(err.code));
+      btn.disabled    = false;
+      btn.textContent = mode === "login" ? "Sign In" : "Sign Up";
+    }
+  });
+
+  // Allow Enter key to submit
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("auth-btn").click();
+  });
+
+  function showError(msg) {
+    const el = document.getElementById("err-msg");
+    el.textContent    = msg;
+    el.style.display  = "block";
+  }
+
+  function hideError() {
+    document.getElementById("err-msg").style.display = "none";
+  }
+
+  function friendlyError(code) {
+    const map = {
+      "auth/user-not-found":        "No account found with that email.",
+      "auth/wrong-password":        "Incorrect password. Try again.",
+      "auth/email-already-in-use":  "An account with this email already exists.",
+      "auth/invalid-email":         "Please enter a valid email address.",
+      "auth/weak-password":         "Password is too weak (min 6 characters).",
+      "auth/too-many-requests":     "Too many attempts. Please wait a moment.",
+      "auth/invalid-credential":    "Incorrect email or password.",
+    };
+    return map[code] || "Something went wrong. Please try again.";
+  }
+</script>
+
+</body>
+</html>

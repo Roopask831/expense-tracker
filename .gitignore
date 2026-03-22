@@ -1,0 +1,12 @@
+# .gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# Node (if you ever add a build step)
+node_modules/
