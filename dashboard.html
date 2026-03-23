@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Expense Tracker v2</title>
+  <title>Expense Tracker</title>
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -12,7 +12,7 @@
 
 <div class="app-wrap">
 
-  <!-- ── NAVBAR ─────────────────────────────────────── -->
+  <!-- NAVBAR -->
   <nav class="navbar">
     <h1>💰 Expense Tracker</h1>
     <div class="navbar-right">
@@ -22,7 +22,7 @@
     </div>
   </nav>
 
-  <!-- ── SUMMARY CARDS ─────────────────────────────── -->
+  <!-- SUMMARY CARDS -->
   <div class="summary">
     <div class="sum-card">
       <div class="sum-label">Balance</div>
@@ -38,21 +38,25 @@
     </div>
   </div>
 
-  <!-- ── CHARTS ─────────────────────────────────────── -->
+  <!-- CHARTS -->
   <div class="charts-grid">
     <div class="chart-card">
       <div class="chart-title">Expenses by Category</div>
-      <div class="chart-wrap"><canvas id="pie-chart"></canvas></div>
-      <div id="pie-empty" class="chart-empty" style="display:none">No expense data yet</div>
+      <div class="chart-wrap">
+        <canvas id="pie-chart"></canvas>
+        <div id="pie-empty" class="chart-empty" style="display:none">No expense data yet</div>
+      </div>
     </div>
     <div class="chart-card">
       <div class="chart-title">Monthly Income vs Expenses</div>
-      <div class="chart-wrap"><canvas id="bar-chart"></canvas></div>
-      <div id="bar-empty" class="chart-empty" style="display:none">No data yet</div>
+      <div class="chart-wrap">
+        <canvas id="bar-chart"></canvas>
+        <div id="bar-empty" class="chart-empty" style="display:none">No data yet</div>
+      </div>
     </div>
   </div>
 
-  <!-- ── ADD TRANSACTION FORM ───────────────────────── -->
+  <!-- ADD TRANSACTION FORM -->
   <div class="form-card">
     <h2>Add Transaction</h2>
     <form id="tx-form">
@@ -87,32 +91,23 @@
     </form>
   </div>
 
-  <!-- ── ADVANCED FILTERS ───────────────────────────── -->
+  <!-- FILTERS -->
   <div class="filter-card">
-    <div class="filter-card-top">
-      <span class="filter-card-title">🔍 Filter Transactions</span>
-      <button class="btn-sm" id="clear-filters-btn">Clear filters</button>
-    </div>
-    <div class="adv-filter-row">
-      <div class="field">
-        <label>Search</label>
-        <input type="text" id="f-search" placeholder="Search description…" />
+    <div class="filter-top-row">
+      <div class="filter-search-group">
+        <input type="text" id="f-search" placeholder="Search by description…" class="filter-search-input" />
+        <button class="btn-search" id="search-btn">Search</button>
       </div>
-      <div class="field">
-        <label>Type</label>
-        <select id="f-type">
-          <option value="all">All</option>
+      <div class="filter-controls-group">
+        <select id="f-type" class="filter-select">
+          <option value="all">All types</option>
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
-      </div>
-      <div class="field">
-        <label>Category</label>
-        <select id="f-cat"><option value="all">All categories</option></select>
-      </div>
-      <div class="field">
-        <label>Month</label>
-        <select id="f-month">
+        <select id="f-cat" class="filter-select">
+          <option value="all">All categories</option>
+        </select>
+        <select id="f-month" class="filter-select">
           <option value="all">All months</option>
           <option value="1">January</option><option value="2">February</option>
           <option value="3">March</option><option value="4">April</option>
@@ -121,22 +116,17 @@
           <option value="9">September</option><option value="10">October</option>
           <option value="11">November</option><option value="12">December</option>
         </select>
-      </div>
-      <div class="field">
-        <label>From date</label>
-        <input type="date" id="f-from" />
-      </div>
-      <div class="field">
-        <label>To date</label>
-        <input type="date" id="f-to" />
+        <input type="date" id="f-from" class="filter-select" title="From date" />
+        <input type="date" id="f-to"   class="filter-select" title="To date" />
+        <button class="btn-sm" id="clear-filters-btn">✕ Clear</button>
       </div>
     </div>
-    <div class="filter-results-row">
+    <div class="filter-count-row">
       <span id="filter-count" class="filter-count"></span>
     </div>
   </div>
 
-  <!-- ── TRANSACTION LIST ───────────────────────────── -->
+  <!-- TRANSACTION LIST -->
   <div class="list-card">
     <div class="list-header">
       <span>Description</span>
