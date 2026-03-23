@@ -367,7 +367,88 @@ body {
   color: var(--muted);
 }
 
+/* ── CHARTS ────────────────────────────────────────────── */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.chart-card {
+  background: var(--white);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.1rem 1rem;
+}
+
+.chart-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 1rem;
+}
+
+.chart-wrap {
+  position: relative;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-wrap canvas { max-height: 220px; }
+
+.chart-empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 3rem 0;
+}
+
+/* ── ADVANCED FILTER CARD ───────────────────────────────── */
+.filter-card {
+  background: var(--white);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.filter-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.adv-filter-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.filter-results-row { margin-top: 10px; }
+
+.filter-count {
+  font-size: 12px;
+  color: var(--muted);
+}
+
 /* ── RESPONSIVE ────────────────────────────────────────── */
+@media (max-width: 680px) {
+  .charts-grid    { grid-template-columns: 1fr; }
+  .adv-filter-row { grid-template-columns: 1fr 1fr; }
+}
+
 @media (max-width: 520px) {
   .summary         { grid-template-columns: 1fr 1fr; }
   .sum-card:first-child { grid-column: span 2; }
@@ -377,4 +458,5 @@ body {
   .tx-item         { grid-template-columns: 1fr 80px 36px; }
   .tx-item > div:nth-child(2) { display: none; }
   #user-email      { display: none; }
+  .adv-filter-row  { grid-template-columns: 1fr; }
 }

@@ -3,14 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Expense Tracker</title>
+  <title>Expense Tracker v2</title>
   <link rel="stylesheet" href="css/style.css" />
-
-  <!--
-    SheetJS — used by export.js to generate the .xlsx file
-    Loaded as a global (window.XLSX) so export.js can access it
-  -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -42,10 +38,23 @@
     </div>
   </div>
 
+  <!-- ── CHARTS ─────────────────────────────────────── -->
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title">Expenses by Category</div>
+      <div class="chart-wrap"><canvas id="pie-chart"></canvas></div>
+      <div id="pie-empty" class="chart-empty" style="display:none">No expense data yet</div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Monthly Income vs Expenses</div>
+      <div class="chart-wrap"><canvas id="bar-chart"></canvas></div>
+      <div id="bar-empty" class="chart-empty" style="display:none">No data yet</div>
+    </div>
+  </div>
+
   <!-- ── ADD TRANSACTION FORM ───────────────────────── -->
   <div class="form-card">
     <h2>Add Transaction</h2>
-
     <form id="tx-form">
       <div class="form-row">
         <div class="field">
@@ -60,7 +69,6 @@
           <select id="tx-cat"></select>
         </div>
       </div>
-
       <div class="form-row three">
         <div class="field">
           <label>Description</label>
@@ -75,36 +83,73 @@
           <input type="date" id="tx-date" required />
         </div>
       </div>
-
       <button class="btn-primary" id="add-btn" type="submit">Add Transaction</button>
     </form>
   </div>
 
+  <!-- ── ADVANCED FILTERS ───────────────────────────── -->
+  <div class="filter-card">
+    <div class="filter-card-top">
+      <span class="filter-card-title">🔍 Filter Transactions</span>
+      <button class="btn-sm" id="clear-filters-btn">Clear filters</button>
+    </div>
+    <div class="adv-filter-row">
+      <div class="field">
+        <label>Search</label>
+        <input type="text" id="f-search" placeholder="Search description…" />
+      </div>
+      <div class="field">
+        <label>Type</label>
+        <select id="f-type">
+          <option value="all">All</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select id="f-cat"><option value="all">All categories</option></select>
+      </div>
+      <div class="field">
+        <label>Month</label>
+        <select id="f-month">
+          <option value="all">All months</option>
+          <option value="1">January</option><option value="2">February</option>
+          <option value="3">March</option><option value="4">April</option>
+          <option value="5">May</option><option value="6">June</option>
+          <option value="7">July</option><option value="8">August</option>
+          <option value="9">September</option><option value="10">October</option>
+          <option value="11">November</option><option value="12">December</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>From date</label>
+        <input type="date" id="f-from" />
+      </div>
+      <div class="field">
+        <label>To date</label>
+        <input type="date" id="f-to" />
+      </div>
+    </div>
+    <div class="filter-results-row">
+      <span id="filter-count" class="filter-count"></span>
+    </div>
+  </div>
+
   <!-- ── TRANSACTION LIST ───────────────────────────── -->
   <div class="list-card">
-
-    <div class="filter-row">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn"        data-filter="income">Income</button>
-      <button class="filter-btn"        data-filter="expense">Expenses</button>
-    </div>
-
     <div class="list-header">
       <span>Description</span>
       <span>Category</span>
       <span style="text-align:right">Amount</span>
       <span></span>
     </div>
-
     <div id="loading">Loading…</div>
     <div id="tx-list"></div>
-
   </div>
 
 </div>
 
-<!-- Main app logic (uses ES modules) -->
 <script type="module" src="js/app.js"></script>
-
 </body>
 </html>
