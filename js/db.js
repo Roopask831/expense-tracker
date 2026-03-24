@@ -1,42 +1,38 @@
-// js/db.js
-// Handles all Firestore (database) read / write / delete operations
-// Each user's data is stored under: users/{userId}/transactions/{txId}
-
+// js/db.js — v3
 import { db } from "./firebase-config.js";
 import {
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-  query,
-  orderBy,
-  serverTimestamp
+  collection, addDoc, getDocs, deleteDoc, doc,
+  query, orderBy, serverTimestamp, updateDoc, setDoc, getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ── Helper: reference to a user's transactions sub-collection ─
-function txCollection(userId) {
-  return collection(db, "users", userId, "transactions");
+function txCol(uid)     { return collection(db, "users", uid, "transactions"); }
+function budgetDoc(uid) { return doc(db, "users", uid, "settings", "budgets"); }
+
+// ── Transactions ─────────────────────────────────────────────
+export async function addTransaction(uid, tx) {
+  await addDoc(txCol(uid), { ...tx, createdAt: serverTimestamp() });
 }
 
-// ── Add a new transaction ─────────────────────────────────────
-export async function addTransaction(userId, tx) {
-  // tx = { desc, amount, date, category, type }
-  await addDoc(txCollection(userId), {
-    ...tx,
-    createdAt: serverTimestamp()   // lets us sort newest-first
-  });
+export async function getTransactions(uid) {
+  const q = query(txCol(uid), orderBy("createdAt", "desc"));
+  const snap = await getDocs(q);
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
 }
 
-// ── Fetch all transactions for a user ─────────────────────────
-export async function getTransactions(userId) {
-  const q = query(txCollection(userId), orderBy("createdAt", "desc"));
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+export async function deleteTransaction(uid, txId) {
+  await deleteDoc(doc(db, "users", uid, "transactions", txId));
 }
 
-// ── Delete a single transaction ───────────────────────────────
-export async function deleteTransaction(userId, txId) {
-  const ref = doc(db, "users", userId, "transactions", txId);
-  await deleteDoc(ref);
+export async function updateTransaction(uid, txId, data) {
+  await updateDoc(doc(db, "users", uid, "transactions", txId), data);
+}
+
+// ── Budgets ──────────────────────────────────────────────────
+export async function saveBudgets(uid, budgets) {
+  await setDoc(budgetDoc(uid), budgets);
+}
+
+export async function getBudgets(uid) {
+  const snap = await getDoc(budgetDoc(uid));
+  return snap.exists() ? snap.data() : {};
 }

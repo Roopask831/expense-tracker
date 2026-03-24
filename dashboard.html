@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Expense Tracker</title>
+  <title>Expense Tracker v3</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
+
+<!-- ALERT BAR -->
+<div id="alert-bar" class="alert-bar" style="display:none"></div>
 
 <div class="app-wrap">
 
@@ -17,6 +22,7 @@
     <h1>💰 Expense Tracker</h1>
     <div class="navbar-right">
       <span id="user-email"></span>
+      <button class="btn-icon" id="dark-btn" title="Toggle dark mode">🌙</button>
       <button class="btn-sm btn-export" id="export-btn">⬇ Export Excel</button>
       <button class="btn-sm" id="logout-btn">Log out</button>
     </div>
@@ -39,7 +45,7 @@
   </div>
 
   <!-- CHARTS -->
-  <div class="charts-grid">
+  <div class="charts-grid three">
     <div class="chart-card">
       <div class="chart-title">Expenses by Category</div>
       <div class="chart-wrap">
@@ -54,11 +60,31 @@
         <div id="bar-empty" class="chart-empty" style="display:none">No data yet</div>
       </div>
     </div>
+    <div class="chart-card">
+      <div class="chart-title">Spending Trend</div>
+      <div class="chart-wrap">
+        <canvas id="line-chart"></canvas>
+        <div id="line-empty" class="chart-empty" style="display:none">No data yet</div>
+      </div>
+    </div>
   </div>
 
-  <!-- ADD TRANSACTION FORM -->
-  <div class="form-card">
-    <h2>Add Transaction</h2>
+  <!-- BUDGET GOALS -->
+  <div class="section-card" id="budget-section">
+    <div class="section-header">
+      <h2>💡 Budget Goals <span class="section-sub">— this month</span></h2>
+    </div>
+    <form id="budget-form" class="budget-form-row">
+      <select id="budget-cat" class="filter-select"></select>
+      <input type="number" id="budget-amount" placeholder="Monthly limit ($)" min="1" step="1" class="filter-select" style="width:180px" />
+      <button class="btn-sm btn-export" type="submit">Set Budget</button>
+    </form>
+    <div id="budget-list" class="budget-list"></div>
+  </div>
+
+  <!-- ADD / EDIT FORM -->
+  <div class="form-card" id="form-card">
+    <h2 id="form-card-title">Add Transaction</h2>
     <form id="tx-form">
       <div class="form-row">
         <div class="field">
@@ -71,6 +97,13 @@
         <div class="field">
           <label>Category</label>
           <select id="tx-cat"></select>
+        </div>
+        <div class="field field-check">
+          <label>&nbsp;</label>
+          <label class="check-label">
+            <input type="checkbox" id="tx-recurring" />
+            🔁 Recurring monthly
+          </label>
         </div>
       </div>
       <div class="form-row three">
@@ -87,7 +120,10 @@
           <input type="date" id="tx-date" required />
         </div>
       </div>
-      <button class="btn-primary" id="add-btn" type="submit">Add Transaction</button>
+      <div class="form-actions">
+        <button class="btn-primary" id="add-btn" type="submit">Add Transaction</button>
+        <button class="btn-sm" id="cancel-edit-btn" type="button" style="display:none">Cancel</button>
+      </div>
     </form>
   </div>
 
@@ -141,5 +177,10 @@
 </div>
 
 <script type="module" src="js/app.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+</script>
 </body>
 </html>

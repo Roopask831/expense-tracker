@@ -1,0 +1,22 @@
+{
+  "name": "Expense Tracker",
+  "short_name": "ExpenseApp",
+  "description": "Track your income and expenses",
+  "start_url": "/expense-tracker/dashboard.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a1a1a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn.jsdelivr.net/npm/twemoji@14.0.2/assets/72x72/1f4b0.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/npm/twemoji@14.0.2/assets/72x72/1f4b0.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
