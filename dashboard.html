@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Expense Tracker v3</title>
+  <title>Expense Tracker</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#ffffff" />
@@ -12,8 +12,17 @@
 </head>
 <body>
 
-<!-- ALERT BAR -->
-<div id="alert-bar" class="alert-bar" style="display:none"></div>
+<!-- NOTIFICATION BELL — fixed top right -->
+<div class="notif-wrapper">
+  <button class="notif-bell" id="notif-btn" title="Notifications">
+    🔔
+    <span class="notif-dot" id="notif-dot"></span>
+  </button>
+  <div class="notif-panel" id="notif-panel">
+    <div class="notif-panel-header">Alerts</div>
+    <div id="notif-list"><div class="notif-empty">No alerts</div></div>
+  </div>
+</div>
 
 <div class="app-wrap">
 
@@ -23,7 +32,7 @@
     <div class="navbar-right">
       <span id="user-email"></span>
       <button class="btn-icon" id="dark-btn" title="Toggle dark mode">🌙</button>
-      <button class="btn-sm btn-export" id="export-btn">⬇ Export Excel</button>
+      <button class="btn-sm btn-export" id="export-btn">Export Excel</button>
       <button class="btn-sm" id="logout-btn">Log out</button>
     </div>
   </nav>
@@ -70,13 +79,14 @@
   </div>
 
   <!-- BUDGET GOALS -->
-  <div class="section-card" id="budget-section">
+  <div class="section-card">
     <div class="section-header">
-      <h2>💡 Budget Goals <span class="section-sub">— this month</span></h2>
+      <h2>Budget Goals <span class="section-sub">— this month</span></h2>
     </div>
     <form id="budget-form" class="budget-form-row">
-      <select id="budget-cat" class="filter-select"></select>
-      <input type="number" id="budget-amount" placeholder="Monthly limit ($)" min="1" step="1" class="filter-select" style="width:180px" />
+      <select id="budget-cat" class="filter-select" style="flex:none;width:160px"></select>
+      <input type="number" id="budget-amount" placeholder="Monthly limit ($)"
+             min="1" step="1" class="filter-select" style="flex:none;width:180px" />
       <button class="btn-sm btn-export" type="submit">Set Budget</button>
     </form>
     <div id="budget-list" class="budget-list"></div>
@@ -102,7 +112,7 @@
           <label>&nbsp;</label>
           <label class="check-label">
             <input type="checkbox" id="tx-recurring" />
-            🔁 Recurring monthly
+            Recurring monthly
           </label>
         </div>
       </div>
@@ -127,35 +137,40 @@
     </form>
   </div>
 
-  <!-- FILTERS -->
+  <!-- FILTERS — Row 1: search | Row 2: dropdowns -->
   <div class="filter-card">
-    <div class="filter-top-row">
-      <div class="filter-search-group">
-        <input type="text" id="f-search" placeholder="Search by description…" class="filter-search-input" />
-      </div>
-      <div class="filter-controls-group">
-        <select id="f-type" class="filter-select">
-          <option value="all">All types</option>
-          <option value="income">Income</option>
-          <option value="expense">Expense</option>
-        </select>
-        <select id="f-cat" class="filter-select">
-          <option value="all">All categories</option>
-        </select>
-        <select id="f-month" class="filter-select">
-          <option value="all">All months</option>
-          <option value="1">January</option><option value="2">February</option>
-          <option value="3">March</option><option value="4">April</option>
-          <option value="5">May</option><option value="6">June</option>
-          <option value="7">July</option><option value="8">August</option>
-          <option value="9">September</option><option value="10">October</option>
-          <option value="11">November</option><option value="12">December</option>
-        </select>
-        <input type="date" id="f-from" class="filter-select" title="From date" />
-        <input type="date" id="f-to"   class="filter-select" title="To date" />
-        <button class="btn-sm" id="clear-filters-btn">✕ Clear</button>
-      </div>
+    <!-- Row 1: search input + search button -->
+    <div class="filter-row-1">
+      <input type="text" id="f-search"
+             placeholder="Search by description…"
+             class="filter-search-input" />
+      <button class="btn-search" id="search-btn">Search</button>
     </div>
+
+    <!-- Row 2: all dropdowns + date range + clear button -->
+    <div class="filter-row-2">
+      <select id="f-type" class="filter-select">
+        <option value="all">All types</option>
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+      <select id="f-cat" class="filter-select">
+        <option value="all">All categories</option>
+      </select>
+      <select id="f-month" class="filter-select">
+        <option value="all">All months</option>
+        <option value="1">January</option><option value="2">February</option>
+        <option value="3">March</option><option value="4">April</option>
+        <option value="5">May</option><option value="6">June</option>
+        <option value="7">July</option><option value="8">August</option>
+        <option value="9">September</option><option value="10">October</option>
+        <option value="11">November</option><option value="12">December</option>
+      </select>
+      <input type="date" id="f-from" class="filter-select" title="From date" />
+      <input type="date" id="f-to"   class="filter-select" title="To date" />
+      <button class="btn-sm" id="clear-filters-btn">Clear</button>
+    </div>
+
     <div class="filter-count-row">
       <span id="filter-count" class="filter-count"></span>
     </div>

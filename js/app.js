@@ -420,7 +420,7 @@ function renderBudgets() {
   });
 }
 
-// ── Overspending alerts ──────────────────────────────────────
+// ── Overspending alerts → notification bell ──────────────
 function checkOverspending() {
   const now       = new Date();
   const thisMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}`;
@@ -430,18 +430,28 @@ function checkOverspending() {
     const spent = allTxs
       .filter(t => t.type==="expense" && t.category===cat && t.date.startsWith(thisMonth))
       .reduce((s,t) => s+t.amount, 0);
-    if (spent > limit)    alerts.push(`🚨 <b>${cat}</b>: over budget by ${fmt(spent-limit)}`);
-    else if (spent/limit >= 0.9) alerts.push(`⚠️ <b>${cat}</b>: 90% of budget used (${fmt(spent)} / ${fmt(limit)})`);
+    if (spent > limit)
+      alerts.push({ type:"over", msg:`<b>${cat}</b>: over budget by ${fmt(spent-limit)}` });
+    else if (spent/limit >= 0.9)
+      alerts.push({ type:"warn", msg:`<b>${cat}</b>: 90% of budget used (${fmt(spent)} / ${fmt(limit)})` });
   });
 
-  const bar = document.getElementById("alert-bar");
-  if (alerts.length) {
-    bar.innerHTML = alerts.join(" &nbsp;|&nbsp; ");
-    bar.style.display = "block";
-  } else {
-    bar.style.display = "none";
-  }
+  const dot  = document.getElementById("notif-dot");
+  const list = document.getElementById("notif-list");
+  dot.classList.toggle("visible", alerts.length > 0);
+  list.innerHTML = alerts.length
+    ? alerts.map(a => `<div class="notif-item ${a.type}">${a.msg}</div>`).join("")
+    : `<div class="notif-empty">No alerts</div>`;
 }
+
+// ── Notification bell toggle ──────────────────────────────
+document.getElementById("notif-btn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  document.getElementById("notif-panel").classList.toggle("open");
+});
+document.addEventListener("click", () => {
+  document.getElementById("notif-panel").classList.remove("open");
+});
 
 // ── Render list ──────────────────────────────────────────────
 function renderList(txs) {
